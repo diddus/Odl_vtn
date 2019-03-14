@@ -67,3 +67,11 @@ MAC mapping 	Maps physical resources to an interface of vBridge using MAC addres
 
 curl --user "admin":"admin" -H "Content-type: application/json" -X POST http://localhost:8181/restconf/operations/vtn:remove-vtn -d '{"input":{"tenant-name":"vtn2"}}'
 https://docs.opendaylight.org/en/stable-fluorine/user-guide/virtual-tenant-network-(vtn).html
+
+
+
+
+
+
+
+cazzo
