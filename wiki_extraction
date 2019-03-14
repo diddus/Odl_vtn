@@ -74,4 +74,6 @@ https://docs.opendaylight.org/en/stable-fluorine/user-guide/virtual-tenant-netwo
 
 
 
-cazzo
+feature:uninstall odl-l2switch-all
+feature:install odl-vtn-manager odl-vtn-manager-rest odl-vtn-manager-neutron odl-restconf-all odl-mdsal-all odl-l2switch-loopremover odl-yangtools-common odl-dlux-core odl-dluxapps-nodes odl-dluxapps-yangman odl-dluxapps-topology odl-dluxapps-applications odl-dluxapps-yangui odl-dluxapps-yangutils odl-dluxapps-yangvisualizer
+
