@@ -1,0 +1,69 @@
+Virtual Tenant Network (VTN)
+
+https://docs.opendaylight.org/en/stable-fluorine/user-guide/virtual-tenant-network-(vtn).html
+
+The uniqueness of VTN is a logical abstraction plane. This enables the complete separation of logical
+plane from physical plane. Users can design and deploy any desired network without knowing the physical network topology
+or bandwidth restrictions.Once the network is designed on VTN, it will automatically be mapped into underlying physical
+network, and then configured on the individual switch leveraging SDN control protocol.
+
+ -- VTN Overview -- 
+It is implemented as two major components
+ > VTN Manager
+ > VTN Coordinator
+
+VTN Manager
+An OpenDaylight Plugin that interacts with other modules to implement the components of the VTN model. 
+It also provides a REST interface to configure VTN components in OpenDaylight. 
+VTN Manager is implemented as one plugin to the OpenDaylight. This provides a REST interface to create/update/delete VTN components. 
+The user command in VTN Coordinator is translated as REST API to VTN Manager by the OpenDaylight Driver component. 
+In addition to the above mentioned role, it also provides an implementation to the OpenStack L2 Network Functions API.
+
+Features Overview
+odl-vtn-manager provides VTN Manager’s JAVA API.
+odl-vtn-manager-rest provides VTN Manager’s REST API.
+odl-vtn-manager-neutron provides the integration with Neutron interface.
+REST API
+VTN Manager provides REST API for virtual network functions.
+
+Here is an example of how to create a virtual tenant network.
+
+curl --user "admin":"admin" -H "Accept: application/json" -H \
+"Content-type: application/json" -X POST \
+http://localhost:8181/restconf/operations/vtn:update-vtn \
+-d '{"input":{"tenant-name":"vtn1"}}'
+You can check the list of all tenants by executing the following command.
+
+curl --user "admin":"admin" -H "Accept: application/json" -H \
+"Content-type: application/json" -X GET \
+http://localhost:8181/restconf/operational/vtn:vtns
+
+REST Conf documentation for VTN Manager, please refer to: 
+https://nexus.opendaylight.org/content/sites/site/org.opendaylight.vtn/boron/manager.model/apidocs/index.html
+****
+ -- VTN Coordinator --
+The VTN Coordinator is an external application that provides a REST interface for an user to use OpenDaylight VTN Virtualization. 
+It interacts with VTN Manager plugin to implement the user configuration. It is also capable of multiple OpenDaylight orchestration.
+VTN Coordinator will use the REST interface exposed by the VTN Manger to realize the virtual network using OpenDaylight.
+https://wiki.opendaylight.org/view/OpenDaylight_Virtual_Tenant_Network_%28VTN%29:VTN_Coordinator:RestApi
+****
+ -- Virtual Network Construction --
+vBridge 	             The logical representation of L2 switch function.
+vRouter 	             The logical representation of router function.
+vTep 	                 The logical representation of Tunnel End Point - TEP.
+vTunnel 	             The logical representation of Tunnel.
+vBypass 	             The logical representation of connectivity between controlled networks.
+Virtual interface 	   The representation of end point on the virtual node.
+Virtual Linkv(vLink)   The logical representation of L1 connectivity between virtual interfaces.
+****
+ -- Mapping of Physical Network Resources --
+Port mapping 	Maps physical network resources to an interface of vBridge using Switch ID, Port ID and VLAN ID of the incoming L2 frame. 
+              Untagged frame mapping is also supported.
+VLAN mapping 	Maps physical network resources to a vBridge using VLAN ID of the incoming L2 frame.Maps physical resources of a 
+              particular switch to a vBridge using switch ID and VLAN ID of the incoming L2 frame.
+MAC mapping 	Maps physical resources to an interface of vBridge using MAC address of the incoming L2 frame(The initial contribution 
+              does not include this method).
+
+
+curl --user "admin":"admin" -H "Content-type: application/json" -X POST http://localhost:8181/restconf/operations/vtn:remove-vtn -d '{"input":{"tenant-name":"vtn2"}}'
+https://docs.opendaylight.org/en/stable-fluorine/user-guide/virtual-tenant-network-(vtn).html
