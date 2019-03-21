@@ -97,3 +97,43 @@ curl --user "admin":"admin" -H "Content-type: application/json" -X POST http://l
 
 
 other lines
+**********************************************************************************************************
+===  VXLAN CONFIGURATION ====
+ovs-vsctl add-port s1 vxlan -- set Interface vxlan type=vxlan options:key=flow options:local_ip=192.168.44.134 options:remote_ip=192.168.248.129 ofport_request=10
+***********************************************************************************************************
+
+********************************************************************************************
+===  VXLAN CONFIGURATION ====
+ovs-vsctl add-port s2 vxlan -- set Interface vxlan type=vxlan options:key=flow options:local_ip=192.168.248.129 options:remote_ip=192.168.44.134 ofport_request=10
+********************************************************************************************
+
+=====S1========FLOWS
+ovs-ofctl add-flow -O OpenFlow13 s1 "table=0,in_port=1,actions=set_field:100->tun_id,resubmit(,1)"
+ovs-ofctl add-flow -O OpenFlow13 s1 "table=0,in_port=2,actions=set_field:200->tun_id,resubmit(,1)"
+ovs-ofctl add-flow -O OpenFlow13 s1 "table=0,action=resubmit(,1)"
+ovs-ofctl add-flow -O OpenFlow13 s1 "table=1,tun_id=100,dl_dst=00:00:00:00:00:01,actions=output:1"
+ovs-ofctl add-flow -O OpenFlow13 s1 "table=1,tun_id=200,dl_dst=00:00:00:00:00:01,actions=output:2"
+ovs-ofctl add-flow -O OpenFlow13 s1 "table=1,tun_id=100,dl_dst=00:00:00:00:00:02,actions=output:10"
+ovs-ofctl add-flow -O OpenFlow13 s1 "table=1,tun_id=200,dl_dst=00:00:00:00:00:02,actions=output:10"
+ovs-ofctl add-flow -O OpenFlow13 s1 "table=1,tun_id=100,arp,nw_dst=10.0.0.1,actions=output:1"
+ovs-ofctl add-flow -O OpenFlow13 s1 "table=1,tun_id=200,arp,nw_dst=10.0.0.1,actions=output:2"
+ovs-ofctl add-flow -O OpenFlow13 s1 "table=1,tun_id=100,arp,nw_dst=10.0.0.2,actions=output:10"
+ovs-ofctl add-flow -O OpenFlow13 s1 "table=1,tun_id=200,arp,nw_dst=10.0.0.2,actions=output:10"
+ovs-ofctl add-flow -O OpenFlow13 s1 "table=1,priority=100,actions=drop"
+
+=====S2========FLOWS
+sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=0,in_port=1,actions=set_field:100->tun_id,resubmit(,1)"
+sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=0,in_port=2,actions=set_field:200->tun_id,resubmit(,1)"
+sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=0,action=resubmit(,1)"
+sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=1,tun_id=100,dl_dst=00:00:00:00:00:01,actions=output:10"
+sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=1,tun_id=200,dl_dst=00:00:00:00:00:01,actions=output:10"
+sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=1,tun_id=100,dl_dst=00:00:00:00:00:02,actions=output:1"
+sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=1,tun_id=200,dl_dst=00:00:00:00:00:02,actions=output:2"
+sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=1,tun_id=100,arp,nw_dst=10.0.0.1,actions=output:10"
+sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=1,tun_id=200,arp,nw_dst=10.0.0.1,actions=output:10"
+sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=1,tun_id=100,arp,nw_dst=10.0.0.2,actions=output:1"
+sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=1,tun_id=200,arp,nw_dst=10.0.0.2,actions=output:2"
+sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=1,priority=100,actions=drop"
+
+
+other line
