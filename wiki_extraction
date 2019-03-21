@@ -137,3 +137,14 @@ sudo ovs-ofctl add-flow -O OpenFlow13 s2 "table=1,priority=100,actions=drop"
 
 
 other line
+auto eth0
+iface eth0 inet static
+    address 192.168.44.134
+    netmask 255.255.255.0
+    network 192.168.44.0
+    broadcast 192.168.44.255
+    gateway 192.168.44.128
+    dns-nameservers 8.8.8.8
+
+
+other
