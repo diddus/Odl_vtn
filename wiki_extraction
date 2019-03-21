@@ -148,3 +148,11 @@ iface eth0 inet static
 
 
 other
+
+ovs-ofctl add-flow -O OpenFlow13 ovs1 "table=0,in_port=2,actions=set_field:100->tun_id,resubmit(,1)"
+ovs-ofctl add-flow -O OpenFlow13 ovs1 "table=1,tun_id=100,priority=100,arp,nw_dst=10.25.42.56,actions=output:10"
+ovs-ofctl add-flow -O OpenFlow13 ovs1 "table=1,tun_id=100,priority=100,arp,nw_dst=10.25.42.55,actions=output:2"
+ovs-ofctl add-flow -O OpenFlow13 ovs1 "table=1,tun_id=100,priority=100,dl_dst=00:0B:82:2D:26:E2,actions=output:2"
+ovs-ofctl add-flow -O OpenFlow13 ovs1 "table=1,tun_id=100,priority=99,actions=output:10"
+
+otherr lines
