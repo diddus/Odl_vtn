@@ -462,6 +462,29 @@ full => notice,warning,error,debug,verbose,dtmf,fax
 
 
 
+$ sudo -u asterisk vim /etc/asterisk/asterisk.conf
+[directories](!)
+astetcdir => /etc/asterisk
+astmoddir => /usr/lib/asterisk/modules
+astvarlibdir => /var/lib/asterisk
+astdbdir => /var/lib/asterisk
+astkeydir => /var/lib/asterisk
+astdatadir => /var/lib/asterisk
+astagidir => /var/lib/asterisk/agi-bin
+astspooldir => /var/spool/asterisk
+[options]
+astrundir => /var/run/asterisk
+astlogdir => /var/log/asterisk
+astsbindir => /usr/sbin
+runuser = asterisk ; The user to run as. The default is root.
+rungroup = asterisk ; The group to run as. The default is root
+
+
+$ sudo chown -R asterisk:asterisk {/etc,/var/lib,/var/spool,/var/log,/var/run}/asterisk
+We also may need to add a rule to the /etc/tmpfiles.d folder, to allow Asterisk to create
+a socket at runtime.
+$ sudo nano /etc/tmpfiles.d/asterisk.conf
+d /var/run/asterisk 0775 asterisk asterisk
 
 
 
