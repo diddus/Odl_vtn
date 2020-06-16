@@ -519,6 +519,13 @@ in past versions of Asterisk):
 
 $ alembic -c ./config.ini upgrade head
 
+$ mysql -u asterisk -p
+mysql> use asterisk;
+mysql> show tables;
+
+
+
+
 
 fine
 
