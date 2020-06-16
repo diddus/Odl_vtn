@@ -488,7 +488,36 @@ d /var/run/asterisk 0775 asterisk asterisk
 
 
 
+Navigate to the relevant directory and make a copy of the configuration file.
+$ cd ~/src/asterisk-16.<TAB>/contrib/ast-db-manage
+$ cp config.ini.sample config.ini
 
+Now, we’re going to open the file and give it the credentials for our database (which
+are defined in the Ansible playbook named starfish.yml, under the variable cur
+rent_mysql_asterisk_password, which we used at the beginning of this chapter):
+
+$ nano config.ini
+
+Find the lines that look similar to this:
+
+#sqlalchemy.url = postgresql://user:pass@localhost/asterisk
+sqlalchemy.url = mysql://user:pass@localhost/asterisk
+# Logging configuration
+[loggers]
+keys = root,sqlalchemy,alembic
+Make a copy of it, comment it out, and edit it with the correct credentials:
+#sqlalchemy.url = postgresql://user:pass@localhost/asterisk
+#sqlalchemy.url = mysql://user:pass@localhost/asterisk
+sqlalchemy.url = mysql://asterisk:YouNeedAReallyGoodPasswordHereToo@localhost/asterisk
+# Logging configuration
+[loggers]
+keys = root,sqlalchemy,alembic
+
+Now, with that very simple bit of configuration, we can use Alembic to automagically
+configure the database perfectly for Asterisk (this used to be somewhat painful to do
+in past versions of Asterisk):
+
+$ alembic -c ./config.ini upgrade head
 
 
 fine
