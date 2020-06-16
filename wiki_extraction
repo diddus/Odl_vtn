@@ -434,6 +434,18 @@ mkdir -p ~/ansible/playbooks
 ansible-playbook /home/astmin/ansible/playbooks/starfish.yml
 
 
+$ mkdir ~/src
+$ cd ~/src
+$ wget https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-16-current.tar.gz
+$ tar zxvf asterisk-16-current.tar.gz
+$ cd asterisk-16.<TAB> # tab should auto-complete (unless it has more than one match)
+We can now run a few prerequisites that the Asterisk team has defined, and also have
+the environment checked:
+$ cd contrib/scripts (or cd ~/src/asterisk-16.<TAB>/contrib/scripts
+$ sudo ./install_prereq install # asterisk has a few prerequisites that this simplifies
+$ cd ../..
+$ ./configure --with-jansson-bundled
+
 
 
 fine
