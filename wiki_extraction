@@ -523,7 +523,44 @@ $ mysql -u asterisk -p
 mysql> use asterisk;
 mysql> show tables;
 
+$ sudo -u asterisk vim /etc/asterisk/res_odbc.conf
+Once again, you’ll need the credentials you defined in your Ansible playbook.
+[asterisk]
+enabled => yes
+dsn => asterisk
+username => asterisk
+password => YouNeedAReallyGoodPasswordHereToo
+pre-connect => yes
 
+$ mysql -D asterisk -u asterisk -p
+
+mysql>
+
+insert into asterisk.ps_aors (id, max_contacts) values ('6597100', 1);
+insert into asterisk.ps_aors (id, max_contacts) values ('6597101', 1);
+ insert
+  into asterisk.ps_auths
+  (id, auth_type, password, username)
+  values
+  ('6597100', 'userpass', 'secret', '6597100');
+insert
+  into asterisk.ps_auths
+  (id, auth_type, password, username)
+  values
+  ('6597101', 'userpass', 'secret', '6597101');
+insert
+  into asterisk.ps_endpoints
+  (id, transport, aors, auth, context, disallow, allow, direct_media)
+  values
+  ('6597100', 'transport-udp', '6597100', '6597100',
+  'interni', 'all', 'alaw', 'no');
+insert
+  into asterisk.ps_endpoints
+  (id, transport, aors, auth, context, disallow, allow, direct_media)
+  values
+  ('6597101', 'transport-udp', '6597101', '6597101',
+  'interni', 'all', 'alaw', 'no');
+exit
 
 
 
