@@ -431,7 +431,7 @@ mkdir -p ~/ansible/playbooks
 
 
 
-
+ansible-playbook /home/astmin/ansible/playbooks/starfish.yml
 
 
 
