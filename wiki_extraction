@@ -446,6 +446,26 @@ $ sudo ./install_prereq install # asterisk has a few prerequisites that this sim
 $ cd ../..
 $ ./configure --with-jansson-bundled
 
+$ sudo -u asterisk vim /etc/asterisk/logger.conf
+[general]
+exec_after_rotate=gzip -9 ${filename}.2;
+[logfiles]
+;debug => debug
+;security => security
+console => notice,warning,error,verbose
+;console => notice,warning,error,debug
+messages => notice,warning,error
+full => notice,warning,error,debug,verbose,dtmf,fax
+;full-json => [json]debug,verbose,notice,warning,error,dtmf,fax
+;syslog keyword : This special keyword logs to syslog facility
+;syslog.local0 => notice,warning,error
+
+
+
+
+
+
+
 
 
 fine
